@@ -1,7 +1,10 @@
 // ignore_for_file: constant_identifier_names
 
+import 'dart:convert';
 import 'dart:core';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../screens/home/model/login_response_model.dart';
 
 class PreferenceService {
   PreferenceService._();
@@ -11,6 +14,7 @@ class PreferenceService {
   static const String USER_LOGIN_DATA = 'USER_LOGIN_DATA';
   static const String CURRENT_ROUTE = 'CURRENT_ROUTE';
   static const String USER_ACESS_TOKEN = 'USER_ACESS_TOKEN';
+  static const String USER_REFRESH_TOKEN = 'USER_REFRESH_TOKEN';
 
   Future<SharedPreferences> _getInstance() async {
     return SharedPreferences.getInstance();
@@ -20,15 +24,39 @@ class PreferenceService {
     final pref = await SharedPreferences.getInstance();
     await pref.clear();
   }
-  
+    void setLoginResponse(LoginResponseModel loginResponseModel) async {
+
+    (await _getInstance()).setString(
+        PreferenceService.USER_LOGIN_DATA, jsonEncode(loginResponseModel));
+  }
+
+  Future<dynamic> getLoginResponse() async {
+    dynamic data =
+        (await _getInstance()).getString(PreferenceService.USER_LOGIN_DATA);
+    if (data == null) {
+      return null;
+    } else {
+      LoginResponseModel loginResponseModel =
+          LoginResponseModel.fromJson(jsonDecode(data));
+      return loginResponseModel;
+    }
+  }
   void setUserAccessToken(dynamic accessToken) async {
     (await _getInstance())
         .setString(PreferenceService.USER_ACESS_TOKEN, accessToken);
   }
-
+void setUserRefreshToken(dynamic refreshToken) async {
+    (await _getInstance())
+        .setString(PreferenceService.USER_REFRESH_TOKEN, refreshToken);
+  }
   Future<String?> getUserAccessToken() async {
     final dynamic accessToken =
         (await _getInstance()).getString(PreferenceService.USER_ACESS_TOKEN);
     return accessToken;
+  }
+   Future<String?> getUserRefreshToken() async {
+    final dynamic refreshToken =
+        (await _getInstance()).getString(PreferenceService.USER_REFRESH_TOKEN);
+    return refreshToken;
   }
 }

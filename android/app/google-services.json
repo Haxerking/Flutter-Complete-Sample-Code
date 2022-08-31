@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1027690819800",
+    "project_id": "visitor-management-syste-51471",
+    "storage_bucket": "visitor-management-syste-51471.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027690819800:android:9c949d2c69e5425ad327ad",
+        "android_client_info": {
+          "package_name": "mobile.mynd.vms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1027690819800-0imuan62svtdbvpqes0trso4g25e9i19.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mobile.mynd.vms",
+            "certificate_hash": "e1a2bbef39f77f85cb9e4b85990a7eeca63cd1f0"
+          }
+        },
+        {
+          "client_id": "1027690819800-84am6s45r6732ln0ttd18941ssq0otgg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3Aaj96opwMIyRfEdpK3TPJDLC7eXmpYg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1027690819800-84am6s45r6732ln0ttd18941ssq0otgg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
