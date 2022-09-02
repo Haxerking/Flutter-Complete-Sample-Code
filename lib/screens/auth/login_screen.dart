@@ -23,7 +23,7 @@ class LoginScreen extends StatelessWidget {
             children: [
               Container(
                 padding: const EdgeInsets.only(bottom: 35),
-                height: 0.92.sh,
+                height: 0.94.sh,
                 decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -187,7 +187,8 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 0.07.sh,
+                height: 0.06.sh,
+                width: 1.sw,
                 child: Image.asset(
                   AssetsHelper.icCreativeMyndPng,
                 ),

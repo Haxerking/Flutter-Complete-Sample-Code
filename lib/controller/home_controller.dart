@@ -6,7 +6,8 @@ import 'package:module_complete/database/app_api_services/dashboard_services.dar
 import '../app_globel_data.dart';
 import '../common/custom/custom_elevated_button.dart';
 import '../common/theme/app_text_style.dart';
-import '../screens/home/model/logout_user_response_model.dart';
+import '../screens/auth/model/auth_screen_response_model.dart';
+import '../screens/auth/model/logout_user_response_model.dart';
 import '../model/app_database_response_model.dart';
 
 class HomeController {
@@ -17,9 +18,8 @@ class HomeController {
   final DashBoardService _service = DashBoardService();
   bool isDiaologOpen = false;
 
- 
-   Future logoutUser() async {
-     dynamic refreshToken =
+  Future logoutUser() async {
+    dynamic refreshToken =
         await GlobelData().preferenceService.getUserRefreshToken();
     Map<String, dynamic> body = {
       "refresh_token": refreshToken,
@@ -31,17 +31,33 @@ class HomeController {
       return response;
     }
   }
-  Future getHostData()async{
-    
 
+  Future sendOtp(String phone) async {
+    Map<String, dynamic> body = {
+      "phone": phone,
+    };
+    DataBaseResponseModel data = await _service.sendOtp(body);
+    if (data.statusCode == 200) {
+      SendOtpScreenResponseModel response =
+          SendOtpScreenResponseModel.fromJson(data.response);
+      
+      return response;
+    }
   }
-   Future getVisitorData()async{
 
-  } Future getHostListData()async{
-
-  } Future updateVisitorDetails()async{
-
-  } Future updateVisitRecord()async{
-
+  Future verifyOtp(String phone, String otp) async {
+    Map<String, dynamic> body = {"phone": phone, "otp": otp};
+    DataBaseResponseModel data = await _service.sendOtp(body);
+    if (data.statusCode == 200) {
+      SendOtpScreenResponseModel response =
+          SendOtpScreenResponseModel.fromJson(data.response);
+      return response;
+    }
   }
+
+  Future getHostData() async {}
+  Future getVisitorData() async {}
+  Future getHostListData() async {}
+  Future updateVisitorDetails() async {}
+  Future updateVisitRecord() async {}
 }

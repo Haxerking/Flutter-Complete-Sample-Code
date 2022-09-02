@@ -23,7 +23,6 @@ class AuthenticationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authController = Get.put(AuthScreenController());
-
     return Scaffold(
         // resizeToAvoidBottomInset: bottomType,
         backgroundColor: AppColors.bgLight0,
@@ -34,7 +33,7 @@ class AuthenticationScreen extends StatelessWidget {
                 children: [
                   Container(
                     padding: const EdgeInsets.only(bottom: 35),
-                    height: 0.92.sh,
+                    height: 0.94.sh,
                     decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
@@ -168,10 +167,7 @@ class AuthenticationScreen extends StatelessWidget {
                             CustomElevatedButton(
                               title: 'Submit',
                               onPressed: () {
-                                GlobelData()
-                                    .navigationRoutesHelper
-                                    .navigateToVisitorBelongingsPage(
-                                        context, page);
+                                authController.verifyOtp(context, page);
                               },
                             ),
                             SizedBox(
@@ -183,7 +179,7 @@ class AuthenticationScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 0.08.sh,
+                    height: 0.06.sh,
                     width: 1.sw,
                     child: Image.asset(
                       AssetsHelper.icCreativeMyndPng,

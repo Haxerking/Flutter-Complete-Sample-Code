@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_animations/stateless_animation/custom_animation.dart';
 
+import '../../../../app_globel_data.dart';
+import '../../../auth/model/verify_otp_screen_response_model.dart';
+
 class VisitorScreenController extends GetxController {
   //for reactive approch please us Rx before any def
   late Rx<TextEditingController> otherController;
-
   late Rx<TextEditingController> nameController;
   late Rx<TextEditingController> emailController;
   late Rx<TextEditingController> addressController;
@@ -51,6 +53,7 @@ class VisitorScreenController extends GetxController {
     d.value = false;
     e.value = false;
     others.value = false;
+    controllerList();
   }
 
   changeStatusA(value) {
@@ -88,16 +91,16 @@ class VisitorScreenController extends GetxController {
         : CustomAnimationControl.playReverse;
   }
 
-  controllerList() {
-    final listData = [
-      nameController.value,
-      emailController.value,
-      phoneController.value,
-      alternatePhoneController.value,
-      addressController.value,
-      orgTypeController.value
-    ];
-    return listData;
+  controllerList() async {
+    VerifyOtpScreenResponseModel visitorDetails =
+        await GlobelData().preferenceService.getLoginResponse();
+    nameController.value.text = visitorDetails.response!.data!.name!;
+    emailController.value.text = visitorDetails.response!.data!.emailId!;
+    phoneController.value.text = visitorDetails.response!.data!.mobile!;
+    alternatePhoneController.value.text =
+        visitorDetails.response!.data!.alternateContact!;
+    addressController.value.text = visitorDetails.response!.data!.address!;
+    orgTypeController.value.text = visitorDetails.response!.data!.companyName!;
   }
 
   @override
@@ -123,10 +126,8 @@ class VisitorScreenController extends GetxController {
   void resetValues() {
     control = CustomAnimationControl.stop;
     loadingStatus.value = false;
-
     isLoginSuccess.value = false;
     otherController.value.text = "";
-
     isLoginSuccess.value = false;
   }
 }

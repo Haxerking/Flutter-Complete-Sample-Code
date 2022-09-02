@@ -6,6 +6,9 @@ import 'package:simple_animations/simple_animations.dart';
 import '../../../app_globel_data.dart';
 import '../../../common/app_labels.dart';
 import '../../../model/app_database_response_model.dart';
+import '../model/auth_screen_response_model.dart';
+import '../model/login_screen_response_model.dart';
+import '../model/verify_otp_screen_response_model.dart';
 
 class AuthScreenController extends GetxController {
   late Rx<TextEditingController> usernameTextController;
@@ -13,14 +16,13 @@ class AuthScreenController extends GetxController {
   late Rx<TextEditingController> forgotPassTextController;
   late Rx<TextEditingController> phoneTextController;
   late Rx<TextEditingController> resendOtpTextController;
-
   late Rx<TextEditingController> otpTextController;
-
   late CustomAnimationControl control;
   final formKey = GlobalKey<FormState>();
   RxBool loadingStatus = false.obs;
   RxBool isLoginSuccess = false.obs;
-  RxString value = "".obs;  RxString resendvalue = "".obs;
+  RxString value = "".obs;
+  RxString resendvalue = "".obs;
 
   @override
   void onInit() {
@@ -45,9 +47,6 @@ class AuthScreenController extends GetxController {
 
     if (response.statusCode == 400) {
       changeLoadingStatus(false);
-      // LoginErrorResponseModel loginResponseModel =
-      // LoginErrorResponseModel.fromJson(response.response);
-
       loadingStatus.value = false;
       isLoginSuccess.value = false;
       control = CustomAnimationControl.stop;
@@ -57,8 +56,8 @@ class AuthScreenController extends GetxController {
           route: () =>
               GlobelData().navigationRoutesHelper.navigateToPreviousScreen());
     } else {
-      LoginResponseModel loginResponseModel =
-          LoginResponseModel.fromJson(response.response);
+      LoginScreenResponseModel loginResponseModel =
+          LoginScreenResponseModel.fromJson(response.response);
       GlobelData().preferenceService.setLoginResponse(loginResponseModel);
       GlobelData()
           .preferenceService
@@ -66,17 +65,57 @@ class AuthScreenController extends GetxController {
       GlobelData()
           .preferenceService
           .setUserRefreshToken(loginResponseModel.refresh);
-
-      // Get.put(HomePageController()).changePage(0);
-      // Get.put(HomePageController()).changeMenuPage(0);
-
       Get.put(AuthScreenController()).resetValues();
-      // Get.put(HomePageController()).getUserRoleWithLocation().then((value) {
-      //   loadingStatus.value = false;
-      //   isLoginSuccess.value = false;
-      //  GlobelData().navigationRoutesHelper.navigateToDashboard(context);
-      // });
+      loadingStatus.value = false;
+      isLoginSuccess.value = false;
       GlobelData().navigationRoutesHelper.navigateToDashboard(context);
+    }
+  }
+
+  sendOtp(context, pageName) async {
+    loadingStatus.value = true;
+    DataBaseResponseModel response = await GlobelData()
+        .dashboardController
+        .sendOtp(phoneTextController.value.text);
+    if (response.statusCode == 400) {
+      changeLoadingStatus(false);
+      loadingStatus.value = false;
+      control = CustomAnimationControl.stop;
+      GlobelData().authController.showNoInternetToast("Something went wrong!",
+          'Please check your internet connection or try again!',
+          buttonText: AppLabels.close,
+          route: () =>
+              GlobelData().navigationRoutesHelper.navigateToLoginScreen());
+    } else {
+      Get.put(AuthScreenController()).resetValues();
+      loadingStatus.value = false;
+      GlobelData().navigationRoutesHelper.navigateToAuthPage(
+          context, pageName, phoneTextController.value.text);
+    }
+  }
+
+  verifyOtp(context, pageName) async {
+    loadingStatus.value = true;
+    DataBaseResponseModel response = await GlobelData()
+        .dashboardController
+        .verifyOtp(
+            phoneTextController.value.text, otpTextController.value.text);
+    if (response.statusCode == 400) {
+      changeLoadingStatus(false);
+      loadingStatus.value = false;
+      control = CustomAnimationControl.stop;
+      GlobelData().authController.showNoInternetToast("Something went wrong!",
+          'Please check your internet connection or try again!',
+          buttonText: AppLabels.close,
+          route: () =>
+              GlobelData().navigationRoutesHelper.navigateToLoginScreen());
+    } else {
+      VerifyOtpScreenResponseModel visitorDetails =
+          VerifyOtpScreenResponseModel.fromJson(response.response);
+      GlobelData().preferenceService.setVisitorDetails(visitorDetails);
+      Get.put(AuthScreenController()).resetValues();
+      loadingStatus.value = false;
+      GlobelData().navigationRoutesHelper.navigateToSelectionScreen(context);
     }
   }
 
@@ -92,16 +131,12 @@ class AuthScreenController extends GetxController {
 
   @override
   void onClose() {
-    // TODO: implement onClose
-
     resetValues();
     super.onClose();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-
     super.dispose();
   }
 

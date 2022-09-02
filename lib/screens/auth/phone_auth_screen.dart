@@ -32,7 +32,7 @@ class PhoneAuthScreen extends StatelessWidget {
                 children: [
                   Container(
                     padding: const EdgeInsets.only(bottom: 35),
-                    height: 0.92.sh,
+                    height: 0.94.sh,
                     decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
@@ -130,22 +130,7 @@ class PhoneAuthScreen extends StatelessWidget {
                             CustomElevatedButton(
                               title: 'Get OTP',
                               onPressed: () {
-                                GlobelData()
-                                    .navigationRoutesHelper
-                                    .navigateToAuthPage(
-                                        context,
-                                        page,
-                                        authController
-                                            .phoneTextController.value.text);
-                                // Navigator.of(context).push(
-                                //     MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             OtpVerification(
-                                //               selectedType:
-                                //                   widget.selectedType,
-                                //               phone:
-                                //                   _phoneController.text,
-                                //             )));
+                                authController.sendOtp(context, page);
                               },
                             ),
                             SizedBox(
@@ -157,7 +142,7 @@ class PhoneAuthScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 0.08.sh,
+                    height: 0.06.sh,
                     width: 1.sw,
                     child: Image.asset(
                       AssetsHelper.icCreativeMyndPng,

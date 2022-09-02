@@ -2,23 +2,23 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import '../../app_globel_data.dart';
 import '../../common/app_assets_helper.dart';
 import '../../common/app_colors.dart';
+import '../../controller/auth_controller.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var screenHeight = MediaQuery.of(context).size.height;
-    var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           backgroundColor: AppColors.bgLight1,
           child: const Icon(Icons.logout),
           onPressed: () {
-            GlobelData().navigationRoutesHelper.navigateToLoginScreen();
+            GlobelData().authController.logoutUser();
           }),
       body: Container(
         decoration: BoxDecoration(
@@ -47,8 +47,8 @@ class HomeScreen extends StatelessWidget {
                         .navigateToPhoneAuthPage(context, "Logout");
                   }),
                   child: Container(
-                    height: screenHeight * 0.06,
-                    width: screenWidth * 0.30,
+                    height: 0.06.sh,
+                    width: 0.30.sw,
                     padding: const EdgeInsets.only(right: 10),
                     alignment: Alignment.center,
                     child: Text(
@@ -64,7 +64,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: screenHeight * 0.20,
+            height: 0.20.sh,
             child: Image.asset(
               AssetsHelper.icLogo,
               scale: 0.8,
@@ -80,7 +80,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: screenHeight * 0.15,
+            height: 0.15.sh,
           ),
           ElevatedButton(
             style: ButtonStyle(
@@ -89,14 +89,12 @@ class HomeScreen extends StatelessWidget {
                 backgroundColor:
                     MaterialStateProperty.all(AppColors.buttonColorDark),
                 minimumSize: MaterialStateProperty.all(
-                  Size(screenWidth * 0.30, screenHeight * 0.06),
+                  Size(0.30.sw, 0.06.sh),
                 )),
             onPressed: () {
               GlobelData()
                   .navigationRoutesHelper
                   .navigateToSelectionScreen(context);
-              // Navigator.of(context)
-              //     .push(RouteAnimation(page: const TypeSelection()));
             },
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -112,7 +110,7 @@ class HomeScreen extends StatelessWidget {
                 SvgPicture.asset(
                   AssetsHelper.icArrowRight,
                   fit: BoxFit.cover,
-                  height: screenHeight * 0.035,
+                  height: 0.035.sh,
                   color: Colors.white,
                 ),
               ],
@@ -125,9 +123,7 @@ class HomeScreen extends StatelessWidget {
               Expanded(
                 child: CarouselSlider(
                   options: CarouselOptions(
-                      height: screenHeight * 0.08,
-                      autoPlay: true,
-                      viewportFraction: 0.3),
+                      height: 0.08.sh, autoPlay: true, viewportFraction: 0.3),
                   items: [1, 2, 3, 4, 5].map((i) {
                     return InkWell(
                       onTap: () {
@@ -142,7 +138,7 @@ class HomeScreen extends StatelessWidget {
                         elevation: 1,
                         child: Container(
                           padding: const EdgeInsets.all(5),
-                          height: screenHeight * 0.06,
+                          height: 0.06.sh,
                           child: Image.asset(
                             i == 0
                                 ? AssetsHelper.icFooter1
@@ -164,7 +160,7 @@ class HomeScreen extends StatelessWidget {
             height: 30,
           ),
           SizedBox(
-            height: screenHeight * 0.06,
+            height: 0.05.sh,
             child: Image.asset(
               AssetsHelper.icCreativeMynd,
               scale: 1.0,

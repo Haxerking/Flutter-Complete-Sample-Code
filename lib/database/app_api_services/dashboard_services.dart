@@ -12,7 +12,22 @@ class DashBoardService {
         returnType: '',
         baseURL: AppConstants.BASE_URL);
   }
-
+ Future sendOtp(Map<String, dynamic> body) async {
+    return await _coreService.apiService(
+        body: body,
+        method: METHOD.POST,
+        endpoint: AppConstants.SEND_OTP,
+        returnType: '',
+        baseURL: AppConstants.BASE_URL);
+  }
+   Future verifyOtp(Map<String, dynamic> body) async {
+    return await _coreService.apiService(
+        body: body,
+        method: METHOD.POST,
+        endpoint: AppConstants.VERIFY_SEND_OTP,
+        returnType: '',
+        baseURL: AppConstants.BASE_URL);
+  }
   Future getHostDetails(Map<String, dynamic> body) async {
     return await _coreService.apiService(
         body: body,
